@@ -1,0 +1,84 @@
+{% extends 'account/base.html' %}
+{% block head_title %} Dashboard {% endblock %}
+
+{% block content %}
+<div class="dashboard" style="min-height:74.75vh;">
+    <div class="text-center">
+        <h2><b>Your Dialy Reading Goal</b></h2> <br>
+    </div>
+    {% if readinggoal %}
+    <div class="container"">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="box">
+                    <div class="percent">
+                        <svg>
+                            <circle cx = "70" cy="70" r="70"></circle>
+                            <circle cx = "70" cy="70" r="70" style="--percent: {{percent}};"></circle>
+                        </svg>
+                    <div class="number">
+                        <h2>{{percent}} <span>%</span></h2>
+                    </div>
+                </div>
+                <div class="text text-center">
+                    <h2>Today's Goal</h2>
+                    <br>
+                    <p style="color:#000">Completed {{todaysgoal.completedminutes|floatformat:2}} minutes of {{readinggoal.minutes}} minutes</p>
+                </div>
+                </div>
+            </div> <br>
+            <div class="col-md-2"></div>
+            <div class="col-md-6 text-center graph-box">
+                <div class="today">TODAY</div>
+                <div class="lastdays">LAST 7 DAYS</div>
+                <div class="avg-text">Average : {{weekavg |floatformat:2}} minutes / day</div>
+                <div class="graph">
+                    {% for min in pastgoals%}
+                        <div class="graph-div" style="height:{{min}}%; min-height: calc(300 * ({{min}} / 100))px;"></div>
+                    {% endfor %}
+                </div> <br>
+                <h2> <b>Week's Report</b> </h2>
+            </div>
+        </div>
+    </div>
+    {% else %}
+       <div class="container text-center">
+           <p>Add Your Reading goal</p>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="number" name="minutes" id="minutes" placeholder="Minutes" min="0" style="margin-left:0"><br>
+            <input type="submit" value="submit" class="hero-btn">
+        </form>
+       </div>
+    {% endif %}
+    {% if userbooks %}
+    <section class="best-Selling">
+        <h1>Your Books</h1>
+        
+        <div class="row">
+        {% for i in userbooks %}
+            <div class="best-selling-col">
+                <a href="{% url 'read_book_view' i.book.id %}"><img src="media/{{i.book.cover_image}}" alt=""></a>
+                <div style="min-height: 100px;margin-top: 15px; font-weight: bold;">{{i.book.name}}</div> <br><br>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width:{% widthratio i.last_open_page i.book.numberofpages 100 %}%" aria-valuenow="{{i.last_open_page}}" aria-valuemin="0" aria-valuemax="{{i.book.numberofpages}}"></div>
+                </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <br><br>
+    <div class="text-center">
+        <h1>Your Books</h1><br>
+        Start Reading Books here from amazing collection of books and a good reading experience. 
+        <br>
+        <br><br><br>
+        <a href="/" class="hero-btn"> Read books</a>
+        <br><br><br>
+    </div>        
+    {% endif %}
+</section>
+
+</div>
+    
+{% endblock %}

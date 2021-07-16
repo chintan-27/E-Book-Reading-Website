@@ -1,0 +1,184 @@
+{% extends 'account/base.html' %}
+{% load static %}
+
+{% block head_title %} Add Book {% endblock %}
+
+{% block content %}
+
+<br><br>
+<div class="container text-center">
+    <h1>ADD BOOK</h1>
+    <div class="search">
+            <form action="" method="post" onsubmit="return onSubmit()" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <input type="text" id="name" name="name" class="form-control" placeholder="Name" required
+                    list="booklist">
+
+                <datalist id="booklist"></datalist>
+
+                <input type="text" id="author" name="author" value="" class="form-control" placeholder="Author"
+                    required >
+                
+                <input type="text" name="description" id="description" placeholder="Description" value = "" class="form-control" required>
+
+                <input type="text" id="genre" name="genre" value="" class="form-control" placeholder="Genre" required >
+
+                <input type="file" id="file" name="file" value="" class="form-control" accept="application/pdf" >
+
+                <input type="text" id="link" name="link" value="" class="form-control" placeholder="Link" >
+
+                <input type="file" id="cover_image" name="cover_image" class="form-control" accept="image/*" required />
+
+                <input type="number" id="numberofpages" name="numberofpages" value="" class="form-control"
+                    placeholder="Number of pages" required >
+
+                <input type="text" id="language" name="language" value="" class="form-control" placeholder="Language"
+                    required >
+
+                <input type="date" id="publisheddate" name="publisheddate" value="" class="form-control"
+                    placeholder="Publish date" >
+
+                <input type="text" id="publisher" name="publisher" value="" class="form-control"
+                    placeholder="Publisher" >
+
+                <input type="hidden" name="rating" id="rating" value=0 >
+
+                <input type="hidden" name="internationalBookNumber" id="internationalBookNumber" value="">
+
+                <input type="hidden" name="ratingscount" id = "ratingscount" value=0>
+
+                <input type="hidden" name="reviewscount" id = "reviewscount" value=0>
+
+                <br>
+                <input type="submit" value="Submit" class="btn btn-dark" />
+
+            </form>
+        </div>
+</div>
+<br><br>
+
+{% endblock %}
+
+{% block extra_body %}
+
+<script>
+    $(document).ready(function () {
+
+        $('#name').keyup(function () {
+
+            let input = document.getElementById('name');
+            if (input.value.length >= 4) {
+                $.ajax({
+                    data: $(this).serialize(),
+                    url: "{% url 'books_details' %}",
+                    success: function (response) {
+                        let obj = JSON.parse(response);
+                        let options = ""
+                        obj = obj.slice(0, 9)
+                        for (let i in obj) {
+                            options += '<option value="' + obj[i]['title'] + '" onclick ="change(this)" />';
+                        }
+                        let books = document.getElementById('booklist');
+                        books.innerHTML = options;
+
+                    },
+                    // on error
+                    error: function (response) {
+                        console.log(response.responseJSON.errors);
+                    }
+                });
+            }
+            return false;
+        });
+    })
+
+    document.getElementById('name').addEventListener('input', () => {
+        let input = document.getElementById('name').value;
+        let options = document.getElementById('booklist').childNodes;
+        for (let i in options) {
+            if (options[i].value == input) {
+                $.ajax({
+                    data: { 'name': options[i].value },
+                    url: "{% url 'book_details' %}",
+                    success: function (response) {
+                        let obj = JSON.parse(response)
+                        for (let i in obj) {
+                            console.log(obj[i])
+                            let num = document.getElementById('numberofpages')
+                            num.value = obj[i]["pages"]
+
+
+                            let author = document.getElementById('author')
+                            author.value = obj[i]["authors"]
+
+                            let language = document.getElementById('language')
+                            language.value = obj[i]["language_code"]
+
+                            let publisher = document.getElementById('publisher')
+                            publisher.value = obj[i]['publisher']
+
+                            let pubdate = document.getElementById('publisheddate')
+                            let datelist = obj[i]['publication_date'].split("/")
+                            let month = ''
+                            if(datelist[0].length == 1){
+                                month = '0'+datelist[0]
+                            }else{
+                                month = datelist[0]
+                            }
+
+                            let day = ''
+                            if(datelist[1].length == 1){
+                                day = '0' + datelist[1]
+                            }else{
+                                day = datelist[1]
+                            }
+                            
+                            let date = datelist[2] + "-" + month + "-" + day
+                            pubdate.value = date
+
+                            let rating = document.getElementById('rating')
+                            rating.value = obj[i]['average_rating']
+
+                            let ratingscount = document.getElementById('ratingscount')
+                            ratingscount.value = obj[i]['ratings_count']
+
+                            let reviewscount = document.getElementById('reviewscount')
+                            reviewscount.value = obj[i]['text_reviews_count']
+
+                            let internationalBookNumber= document.getElementById('internationalBookNumber')
+                            internationalBookNumber.value = obj[i]['isbn']
+
+                        }
+                    },
+                    // on error
+                    error: function (response) {
+                        console.log(response.responseJSON.errors);
+                    }
+                });
+            }
+        }
+    })
+    const change = (e) => {
+        console.log(e)
+    }
+
+    const onSubmit = (e) =>{
+        let file = document.getElementById('file')
+        let link = document.getElementById('link')
+
+        if(file.value == "" && link.value == ""){
+            alert("Please Enter Link or File for the book.")
+            return false;
+        }
+        if(!(link.value.endsWith('.pdf')) && link.value != "" ){
+            alert('Please enter the link of pdf file')
+            return false;
+        }
+        return true;
+    }
+
+</script>
+
+{% endblock %}

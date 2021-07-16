@@ -1,0 +1,697 @@
+/* Main CSS Path for Every Page. */
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.header {
+  width: 100%;
+  /*background-image: url(css/banner.png);*/
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+.text {
+  height: 80vh;
+  width: 100%;
+}
+
+nav {
+  display: flex;
+  padding: 2% 6%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  flex: 1;
+  text-align: right;
+}
+
+.nav-links ul li {
+  list-style: none;
+  display: inline-block;
+  padding: 8px 12px;
+  position: relative;
+}
+
+.nav-links ul li a {
+  color: #000000;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.nav-links ul li::after {
+  content: '';
+  width: 0%;
+  height: 2px;
+  background: #ff0000;
+  display: block;
+  margin: auto;
+  transition: 0.5s;
+}
+
+.nav-links ul li:hover::after {
+  width: 100%;
+  color: blue;
+}
+
+/* Position of Top Page */
+
+.text-box {
+  width: 90%;
+  color: #000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Title of Page */
+
+.text-box h1 {
+  font-size: 70px;
+}
+
+.text-box p {
+  margin: 10px 0 40px;
+  font-size: 14px;
+  color: #000;
+}
+
+nav ion-icon {
+  display: none;
+}
+
+@media(max-width: 700px) {
+  .text-box h1 {
+    font-size: 20px;
+  }
+  .nav-links ul li {
+    display: block;
+  }
+  .nav-links ul li a {
+    color: #fff;
+  }
+  .nav-links {
+    position: absolute;
+    background: rgb(46, 43, 43);
+    height: 100vh;
+    width: 200px;
+    top: 0;
+    right: -200px;
+    text-align: left;
+    z-index: 2;
+    transition: 1s;
+  }
+  .menu-icon {
+    color: black;
+  }
+  nav ion-icon {
+    display: block;
+    color: #fff;
+    margin: 10px;
+    font-size: 22px;
+    cursor: pointer;
+  }
+  .nav-links ul {
+    padding: 20px;
+  }
+}
+
+/* Description after title */
+
+.btn-primary {
+  background-color: rgba(100, 100, 100, 0.5);
+  color: #fff;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 1.3px;
+  padding: 32px 100px;
+  text-decoration: none;
+  border-radius: 25px;
+  position: relative;
+  box-shadow: none;
+  border: none;
+}
+
+/* Submit form */
+
+.Search {
+  color: #000000;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 50;
+  font-size: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  padding-top: 50px;
+}
+
+input[type='text'], input[type="number"], input[type="email"], input[type="password"], input[type='file'], textarea, input[type="date"] {
+  width: 600px;
+  border-radius: 2px;
+  border: 1px solid #CCC;
+  padding: 10px;
+  color: #333;
+  font-size: 14px;
+  margin-left: 22%;
+  margin-top: 15px;
+}
+
+input[type='Submit'] {
+  text-align: center;
+  padding: 10px 15px 8px;
+  text-align: center;
+  color: #fff;
+  background-color: #000000;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+  box-shadow: none;
+  border: none;
+  transition: 0.3s;
+}
+
+input[type='Submit']:hover {
+  background-color: #A9A9A9;
+  /* Light Grey */
+}
+
+.authors {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  padding-top: 50px;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.row {
+  margin-top: 5%;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media(max-width: 982px) {
+  input[type='text'], input[type="number"], input[type="email"], input[type="password"], input[type='file'], textarea, input[type="date"] {
+    width: 450px;
+  }
+  .row {
+    flex-direction: column;
+  }
+}
+
+@media(max-width: 700px) {
+  input[type='text'], input[type="number"], input[type="email"], input[type="password"], input[type='file'], textarea, input[type="date"] {
+    width: 300px;
+    margin-left: 20%;
+  }
+  .row {
+    flex-direction: column;
+  }
+}
+
+/*------Best selling books section----------*/
+
+.best-Selling {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.best-selling-col {
+  flex-basis: 32%;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+  transition: 0.5s;
+  border: 20px solid white;
+}
+
+.best-selling-col img {
+  width: 100%;
+}
+
+.best-selling-col:hover {
+  box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.2);
+}
+
+.hero-btn {
+  text-align: center;
+  padding: 15px;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  background-color: #000000;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.5s;
+  border: none;
+  box-shadow: 1px 2px 3px #0005;
+}
+
+.hero-btn:hover {
+  background-color: #A9A9A9;
+  text-decoration: none;
+  color: #000;
+}
+
+/* ----------Authors-------- */
+
+.authors-col {
+  flex-basis: 31%;
+  border-radius: 10px;
+  margin-bottom: 5%;
+  text-align: left;
+  flex-wrap: wrap;
+  transition: 0.5s;
+}
+
+.authors-col p {
+  padding: 0;
+}
+
+.authors-col h3 {
+  margin-top: 16px;
+  margin-bottom: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.authors-col img {
+  width: 100%;
+  max-height: 70vh;
+  border-radius: 10px;
+}
+
+.authors-col img:hover {
+  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer background */
+
+/* Making the footer */
+
+.footer {
+  background-color: #333;
+  color: #ffffff;
+  padding: 15px 0;
+}
+
+/* Description in footer */
+
+.footer p {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.highlight {
+  background: yellow;
+}
+
+.center {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wave {
+  width: 5px;
+  height: 60px;
+  background: linear-gradient(45deg, white, #000);
+  margin: 10px;
+  animation: wave 0.5s linear infinite;
+  border-radius: 20px;
+}
+
+.wave:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.wave:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+.wave:nth-child(4) {
+  animation-delay: 0.15s;
+}
+
+.wave:nth-child(5) {
+  animation-delay: 0.2s;
+}
+
+.wave:nth-child(6) {
+  animation-delay: 0.25s;
+}
+
+.wave:nth-child(7) {
+  animation-delay: 0.3s;
+}
+
+.wave:nth-child(8) {
+  animation-delay: 0.35s;
+}
+
+.wave:nth-child(9) {
+  animation-delay: 0.4s;
+}
+
+.wave:nth-child(10) {
+  animation-delay: 0.45s;
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+#word {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.type {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.meaning {
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+/* ------ MESSAGES ---------- */
+
+.messages {
+  width: 80%;
+  height: auto;
+  background-color: blue;
+  color: #fff;
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  border-radius: 10px;
+  box-shadow: 10px 10px 12px #0003;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.messages ul {
+  list-style: none;
+}
+
+.messages .close-msg ion-icon {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ----- LOGIN ----- */
+
+.socialaccount_providers {
+  list-style: none;
+}
+
+.socialaccount_providers li {
+  display: inline;
+  margin: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #fff;
+  border: 5px solid #fff;
+  box-shadow: 3px 3px 5px #0004;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+.socialaccount_providers li:hover {
+  box-shadow: 13px 13px 15px #0004;
+}
+
+.login-container {
+  border: 2px solid #CCC;
+  padding: 50px;
+  margin: auto;
+  border-radius: 3px;
+  margin-top: 10px;
+}
+
+.login-field input {
+  margin-left: 0;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #CCC;
+}
+
+input:focus, input:active {
+  outline: none;
+}
+
+.row {
+  margin-top: 0;
+}
+
+@media (max-width: 1033px) and (min-width: 768px) {
+  .socialaccount_providers li {
+    display: block;
+  }
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.box{
+  width: 300px;
+  height: 400px;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0 30px 60px #0006;
+  padding: 30px;
+  border-radius: 5px;
+}
+.box .percent{
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+.box .percent svg{
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+.box .percent svg circle{
+  width: 150px;
+  height: 150px;
+  fill: none;
+  stroke-width: 10;
+  stroke: #000;
+  transform: translate(5px, 5px);
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+}
+.box .percent svg circle:nth-child(1){
+  stroke-dashoffset:0;
+  stroke:#f3f3f3;
+}
+.box .percent svg circle:nth-child(2){
+  stroke-dashoffset: calc(440 - (440 * var(--percent)) / 100);
+  stroke:blueviolet;
+}
+.box .percent .number{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  color: #999;
+  transition: 0.3s;
+}
+.box:hover .percent .number{
+  color: #000;
+}
+.box .percent .number h2{
+  font-size: 35px;
+}
+.box .percent .number h2 span{
+  font-size: 20px;
+}
+.box .text{
+  padding: 10px 0 0;
+  color: #999;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+.box:hover .text{
+  color: #000;
+}
+.graph-box{
+  background-color: #fff;
+  box-shadow: 0 30px 60px #0006;
+  border-radius: 5px;
+  padding: 30px;
+  height: 400px;
+} 
+.graph{
+  height: 75%;
+  display: flex;
+  margin: auto;
+  padding: 30px;
+  border-bottom: 1px solid #000;
+}
+.graph .graph-div{
+  margin-left: auto;
+  margin-right: auto;
+  width:30px;
+  background-image: linear-gradient( 70deg,  rgba(255,90,90,1) 27.2%, rgba(130,5,255,1) 79.9% );
+  border-radius: 2px;
+  box-shadow: 2px 3px 4px #0004;
+  z-index: 100;
+}
+.avg-text{
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.today, .lastdays{
+  position: absolute;
+}
+.today{
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size:20px;
+  transform: rotate(90deg);  
+  top: 40%;
+  right: 10px;
+  opacity: 0.7;
+}
+.lastdays{
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size:20px;
+  transform: rotate(-90deg);  
+  top: 40%;
+  left: -20px;
+  opacity: 0.7;
+}
+.page{
+  width:100%;
+  background-color: #fff;
+  border: 5px solid salmon;
+  border-radius: 5px;
+  box-shadow: 4px 5px 8px #0002;
+  padding: 20px;
+}
+.page-content{
+  width: auto;
+  margin: auto;
+}
+.menu-btn, .icon-read{
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 1000;
+  background-color:#fa8072;
+  box-shadow: 4px 5px 8px #0002;
+  color: white;
+  transition: 0.3s;
+}
+.icon-read{
+  height: 60px;
+  border-radius: 5px;
+  width: auto;
+  padding: 10px;
+  color: white;
+  opacity: 0;
+  cursor: pointer;
+}
+.icon-read a{
+  color: white;
+  width:100%;
+  height:100%;
+}
+.icon-read:hover a{
+  color: white;
+}
+.menu-btn{
+  z-index: 10000;
+  border-radius: 50%;
+  padding-top: 15px;
+  cursor: pointer;
+  font-size: 40px;
+  height: 80px;
+  width: 80px;
+}
+.icon-one-active{
+  transform: translateY(-100px) rotate(360deg);
+  opacity: 1;
+  transition: 0.3s;
+}
+.icon-two-active{
+  opacity: 1;
+  transform: translateY(-200px) rotate(360deg);
+  transition: 0.3s;
+}
+.icon-three-active{
+  transform: translateY(-300px) rotate(360deg);
+  opacity: 1;
+  transition: 0.3s;
+}
+.icon-four-active{
+  transform: translateY(-400px) rotate(360deg);
+  opacity: 1;
+  transition: 0.3s;
+}
+.genres{
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  padding-top: 50px;
+}
+.gen-type{
+  display: block;
+  font-size: 3em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  margin-top: 5%;
+  text-align: left;
+  text-decoration: none;
+  color: #000000;
+}
+

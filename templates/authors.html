@@ -1,0 +1,23 @@
+{% extends "account/base.html" %}
+{% block head_title %} Authors {% endblock %}
+
+{% block content %}
+
+<section class="authors">
+    <h1>Authors</h1>
+    <br>br
+    <div class="row">
+        {%  for author in authors %}
+        <div class="authors-col">
+            <a href=""><img src="/media/{{author.image}}" alt=""></a>
+            <h3>{{author.name}}</h3>
+            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+            <br>
+            <a href="{% url 'author_detail_view' author.id %}" class="hero-btn">Read More</a>
+        </div>
+        {% endfor %}
+    </div>
+
+</section>
+
+{% endblock %}

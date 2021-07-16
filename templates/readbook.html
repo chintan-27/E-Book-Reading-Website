@@ -1,0 +1,141 @@
+{% extends 'account/base.html' %}
+{% block head_title %} Read {{userbook.book.name}} {% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="page">
+            <div class="menu-btn text-center" onclick="openMenu()">
+                <ion-icon name="menu"></ion-icon>
+            </div>
+                <div class="icon-read" style="margin: auto;--i:1;" id="one">
+                <a href="{% url 'previous_page' book.id %}">Previous Page</a></div>
+
+                <div class="icon-read" style="margin: auto;--i:2;" id="two">
+                <a style="color: #fff;" type="button" data-toggle="modal" data-target="#exampleModal" style="cursor:pointer;" onclick="meaning()">
+                    Meaning
+                </a></div>
+                <div class="icon-read" style="margin: auto;--i:3;" id="three">
+                <a href="" id='highlight_link' onclick="return clickop()">Highlight</a></div>
+
+                <div class="icon-read" style="margin: auto;--i:4;" id="four">
+                <a href="{% url 'next_page' book.id %}">Next Page</a></div>
+        <div class="page-content">
+            <span style="white-space: pre-line" id="page">{{ page|safe }}</span>
+        </div>
+    </div>
+</div> <br><br>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Meaning</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="word"></div>
+                <hr>
+                <div id="loading"></div>
+                <div id="meaning"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    if (!window.x) {
+        x = {};
+    }
+    x.Selector = {};
+    x.Selector.getSelected = function () {
+        let t = '';
+        if (window.getSelection) {
+            t = window.getSelection();
+        } else if (document.getSelection) {
+            t = document.getSelection();
+        } else if (document.selection) {
+            t = document.selection.createRange().text;
+        }
+        return t;
+    }
+
+    $(function () {
+        $('#page').bind("mouseup", function () {
+            let mytext = x.Selector.getSelected();
+            let element = document.getElementById('highlight_link')
+            element.href = '/highlight/' + '{{book.id}}/' + mytext;
+            let element2 = document.getElementById('word')
+            element2.innerHTML = mytext;
+        });
+    });
+
+    function clickop() {
+        let element = document.getElementById('highlight_link')
+        if (element.href.length <= 38) {
+            alert("Minimum 10 characters")
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function meaning() {
+        let element2 = document.getElementById('word');
+        let loading = document.getElementById('loading');
+        loading.innerHTML = '<div class="center"> <div class="wave"></div> <div class="wave"></div> <div class="wave"></div> <div class="wave"></div> <div class="wave"></div> <div class="wave"></div> <div class="wave"></div> <div class="wave"></div> <div class="wave"></div> <div class="wave"></div> </div>'
+        let a = document.getElementById('meaning');
+        a.innerHTML = '';
+        $.ajax({
+            data: { 'text': element2.innerHTML },
+            url: '{% url "meaning" %}',
+            success: (response) => {
+                loading.innerHTML = '';
+                const obj = JSON.parse(response)
+                let str = ''
+                Object.keys(obj).forEach(key => {
+                    str = str + '<div class="type">' + key + '<br>'
+                    obj[key].forEach(ab => {
+                        str = str + '<div class = "meaning">' + ab + '</div> <br>'
+                    })
+                    str = str + '</div> <hr>'
+                })
+                a.innerHTML = str;
+            },
+            error: (response) => {
+
+            }
+        });
+    }
+
+    let start = new Date();
+    window.onbeforeunload  = function (e) {
+        let end = new Date();
+        console.log(end);
+        $.ajax({
+            url: '{% url "update_goal" %}',
+            data: { 'timeSpent': end - start },
+            async: true
+        })
+    }
+
+    function openMenu(){
+        document.getElementById("one").classList.toggle("icon-one-active");
+        document.getElementById("two").classList.toggle("icon-two-active");
+        document.getElementById("three").classList.toggle("icon-three-active");
+        document.getElementById("four").classList.toggle("icon-four-active");
+    }
+</script>
+{% endblock %}

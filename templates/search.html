@@ -1,0 +1,90 @@
+{% extends "account/base.html" %}
+{% block head_title %} Search {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="text-center">
+        <h6 style="font-weight: bold;">Search For A Book</h6>
+        <form action="#" method="post">
+            {% csrf_token %}
+            <input type="text" style="margin-left:0" placeholder= "Search by Book Title/Author Name" name="TitleOfBook">
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="container">
+        <br><br>
+        <div class="text-center">
+            <h1>BOOKS</h1>
+        </div>
+        
+        <br>
+    {% if books %}
+        <div class="row">
+            {% for book in books %}
+            <div class="best-selling-col">
+                <a href="{% url 'book_detail_view' book.id %}"><img src="/media/{{book.cover_image}}" alt=""></a>
+                <div class="text-center">
+                    <br>
+                    <b>{{book.name}}</b>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+    <div class="text-center">
+    <h3>No Books Found.</h3>
+    </div>
+    {% endif %}
+    
+    </div>
+    
+    <hr>
+    <section class="genres">
+        <h1>Genres</h1>
+    {% if genres %}
+        {% for genre in genres %}
+        <h1 class="gen-type">{{genre.name}}</h1>
+        <div class="row">
+            {% for book in genrebooks %}
+                <div class="authors-col">
+                    <a href=""><img src="/media/{{book.cover_image}}" alt=""></a>
+                    <div class="text-center" style="width: 100%;">
+                    <h3>{{book.name}}</h3>
+                    </div>
+            {% endfor %}
+        </div>
+        <a href="#" class="hero-btn">View All Books</a>
+        {% endfor %}
+    {% else %}
+    <h3>No Genres found</h3>
+    {% endif %}
+    </section>
+    
+    <hr>
+    <section class="authors">
+        <h1>Authors</h1>
+        <br>
+        {% if authors %}
+        <div class="row">
+            {%  for author in authors %}
+            <div class="authors-col">
+                <a href="{% url 'author_detail_view' author.id %}"><img src="/media/{{author.image}}" alt=""></a>
+                <h3>{{author.name}}</h3>
+                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                <br>
+                <a href="{% url 'author_detail_view' author.id %}" class="hero-btn">Read More</a>
+            </div>
+            {% endfor %}
+        </div>
+    
+        {% else %}
+        <h3>No Authors Found.</h3>
+        {% endif %}
+    </section>
+    
+    <br><br>
+    
+</div>
+{% endblock %}
+

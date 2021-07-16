@@ -1,0 +1,26 @@
+{% extends "account/base.html" %}
+{% block head_title %} Genres {% endblock %}
+
+
+{% block content %}
+<section class="genres">
+    <h1>Genres</h1>
+    {% for genre in genres %}
+    <h1 class="gen-type">{{genre.name}}</h1>
+    <div class="row">
+        {% for book in books %}
+            {% ifequal genre.name book.genre.name %}
+            <div class="authors-col">
+                <a href=""><img src="/media/{{book.cover_image}}" alt=""></a>
+                <div class="text-center" style="width: 100%;">
+                <h3>{{book.name}}</h3>
+                </div>
+            </div>
+            {% endifequal %}
+        {% endfor %}
+    </div>
+    <a href="#" class="hero-btn">View All Books</a>
+    {% endfor %}
+</section>
+{% endblock %}
+

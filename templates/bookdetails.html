@@ -1,0 +1,100 @@
+{% extends 'account/base.html' %}
+{% block head_title %} {{object.name}} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="text-center">
+    <h1>{{object.name}}</h1>
+    <br>
+  <h4>- By {{object.author.name}}</h4>
+  </div><br><br>
+  <hr>
+  <div class="row">
+    <div class="col-md-4">
+      <img src="/media/{{object.cover_image}}" width="100%"  alt="" style="padding:20px; border-radius: 10px;box-shadow:10px 10px 15px #0004;height:auto;"> 
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-7 p-5">
+      <p>{{object.description}}</p>
+      <p> <b>Published Date:</b> {{object.publisheddate}}</p>
+      <p> <b>Published By: </b> {{object.publisher}} </p>
+      <br>
+      <p style="font-size:40px">  
+        {{object.rating}} - <ion-icon style="transform: translateY(3px);" name="star"></ion-icon>  
+        &nbsp;&nbsp;&nbsp;
+        {{object.ratingscount}} - Ratings 
+      </p>
+    </div>
+  </div>
+  <br>
+  <div class="row text-center">
+    <a href="{% url 'read_book_view' object.id %}" class="hero-btn" style="width:200px;letter-spacing: 2px;margin: auto;">READ</a>
+  </div>
+  <br>
+  <div class="row">
+    {% if review %}
+    {% else %}
+    <button type="button" class="hero-btn" data-toggle="modal" data-target="#exampleModal" style="width:200px;letter-spacing: 2px;margin: auto;">
+        Review
+      </button>
+    {% endif %}
+  </div>
+  <hr>
+  <div class="text-center">
+    <h2> <b>Reviews:</b> </h2> <br>
+  </div>
+  {% if reviews %}
+    {% for r in reviews %}
+    <div class="p-5" style="max-width: 700px;border-radius: 5px; border: 2px solid #0003;margin: auto;box-shadow: 4px 5px 9px #0005;">
+      <p> <b>Review: </b> </p>
+      <p> {{r.review}} </p>
+      <p> <b>Rating: </b> {{r.rating}} </p>
+    </div>
+    {% endfor %}
+  {% else %}
+  <h3>NO REVIEWS YET</h3>
+  {% endif %}
+  <br>
+<hr>
+<br>
+</div>
+
+    <br>
+
+
+
+    
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Sumbit Review</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                <input type="number" style="width: 80%;margin: auto;" id="rating" name="rating" value="" class="form-control" min='0' max='5' step="0.5"
+                    placeholder="Rating" required >
+                    <br>
+                <input type="text" style="width: 80%;margin: auto;" id="review" name="review" value="" class="form-control" placeholder="Review"
+                    required >
+                <input type="hidden" name="next" value="{{ request.path }}">
+                    <br>
+                <div class="text-center">
+                    <input type="submit" name="" id="" value="Submit" class = "hero-btn">
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
