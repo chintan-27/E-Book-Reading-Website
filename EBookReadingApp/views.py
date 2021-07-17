@@ -45,6 +45,7 @@ class IndexView(View):
         if(request.user.is_authenticated):
             wishlist = WishList.objects.filter(user = request.user)
             context['wishlist'] = wishlist
+            print(wishlist)
         authors = Author.objects.all().order_by('rating').reverse()
         context['authors'] = authors[:3]
         return render(request, self.template_name, context)

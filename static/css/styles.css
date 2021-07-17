@@ -12,11 +12,16 @@
   background-position: center;
   background-size: cover;
   position: relative;
+  /* background: url('bg.jpg'); */
 }
 
 .text {
   height: 80vh;
   width: 100%;
+  background: url('back.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* transform: translateY(-70px); */
 }
 
 nav {
@@ -41,7 +46,7 @@ nav {
 .nav-links ul li a {
   color: #000000;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 17px;
 }
 
 .nav-links ul li::after {
@@ -236,6 +241,7 @@ h1 {
   overflow: hidden;
   transition: 0.5s;
   border: 20px solid white;
+  box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.2);
 }
 
 .best-selling-col img {
@@ -244,6 +250,7 @@ h1 {
 
 .best-selling-col:hover {
   box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
 }
 
 .hero-btn {
@@ -707,6 +714,23 @@ a:hover {
   border-radius: 50%;
   box-shadow: 3px 4px 5px #0003;
   cursor: pointer;
+  animation: like 0.7s;
+}
+
+@keyframes like {
+  0%, 100%{
+  font-size: 35px;
+  padding: 10px;
+  }
+  60%{
+    font-size: 40px;
+    padding: 8px;
+  }
+  80%{
+    font-size: 50px;
+    padding: 5px;
+  }
+  
 }
 
 .loader {
@@ -721,4 +745,46 @@ a:hover {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }
