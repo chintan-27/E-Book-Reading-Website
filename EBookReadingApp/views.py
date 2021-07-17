@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect, reverse, HttpResponseRedirect
 from django.views.generic.base import View, TemplateView
 from django.views.generic.detail import DetailView
-from .models import Book, DailyUserReadingGoal, Highlight, Review, UserBook, UserReadingGoal, Author, Genre
+from .models import Book, DailyUserReadingGoal, Highlight, Review, UserBook, UserReadingGoal, Author, Genre, WishList
 from django.shortcuts import get_object_or_404
 import pandas as pd
 import numpy as np
@@ -30,10 +30,10 @@ STATIC_FILE_URI = r"C:\Users/User/Desktop/Projects/EBookReading/EBookReading/sta
 
 class IndexView(View):
     template_name = "index.html"
-    
 
     def get(self, request):
         context = {}
+        wishlist = WishList.objects.filter(user = request.user)
         top_books = Book.objects.all().order_by('rating').reverse()
         most_read = Book.objects.all().order_by('read_count').reverse()
         # book = top_books[0]
@@ -43,6 +43,7 @@ class IndexView(View):
         #     images[i].save('temp/page'+ str(i) +'.jpg', 'JPEG')
         context['top_books'] = top_books[:3]
         context['most_read'] = most_read[:3]
+        context['wishlist'] = wishlist
         authors = Author.objects.all().order_by('rating').reverse()
         context['authors'] = authors[:3]
         return render(request, self.template_name, context)
@@ -135,6 +136,7 @@ class BookDetailView(View):
 
     def get(self, request, **kwargs):
         book = get_object_or_404(Book, id=kwargs['pk'])
+        wishlist = WishList.objects.filter(user = request.user, book = book)
         b = {'object': book}
         response = b
         review = Review.objects.filter(book=book, user=request.user)
@@ -142,6 +144,9 @@ class BookDetailView(View):
         reviews = Review.objects.filter(book=book)
         d = {'reviews':reviews}
         response = {**b, **c, **d}
+        if(len(wishlist) > 0):
+            e = {'wishlist': wishlist}
+            response = {**b, **c, **d, **e}
 
         return render(request, self.template_name, response)
 
@@ -244,7 +249,9 @@ class Dashboard(View):
     def get(self, request):
         userbook = UserBook.objects.filter(user = request.user)
         readinggoal = UserReadingGoal.objects.filter(user = request.user)
+        wishlist = WishList.objects.filter(user = request.user)
         context = {}
+        context['wishlist'] = wishlist
         if(len(readinggoal) > 0):
             context['readinggoal'] = readinggoal[0]
             todaysgoal = get_object_or_404(DailyUserReadingGoal, user=request.user, date = datetime.datetime.today())
@@ -345,7 +352,9 @@ class BooksView(View):
     
     def get(self, request):
         books = Book.objects.all()
+        wishlist = WishList.objects.filter(user = request.user)
         self.context['books'] = books
+        self.context['wishlist'] = wishlist
         return render(request, self.template_name, self.context)
     
 def Search(request, query):
@@ -362,3 +371,36 @@ def Search(request, query):
         genrebooks = Book.objects.filter(genre = genres[0])
         context['genrebooks'] = genrebooks
     return render(request, 'search.html', context)
+
+@login_required()
+def addToWishlist(request, **kwargs):
+    book = get_object_or_404(Book, id = kwargs['pk'])
+    user = request.user
+    wishlist = WishList(user = user, book = book)
+    wishlist.save()
+    return HttpResponse({'message': 'successfully added'})
+
+@login_required()
+def removeFromWishlist(request, **kwargs):
+    book = get_object_or_404(Book, id = kwargs['pk'])
+    user = request.user
+    wishlist = get_object_or_404(WishList,user = user, book = book)
+    wishlist.delete()
+    return HttpResponse({'message': 'successfully deleted'})
+
+@login_required()
+def addToWishlistBook(request, **kwargs):
+    book = get_object_or_404(Book, id = kwargs['pk'])
+    user = request.user
+    wishlist = WishList(user = user, book = book)
+    wishlist.save()
+    return redirect('/book/' + str(kwargs['pk']))
+
+@login_required()
+def removeFromWishlistBook(request, **kwargs):
+    book = get_object_or_404(Book, id = kwargs['pk'])
+    user = request.user
+    wishlist = get_object_or_404(WishList,user = user, book = book)
+    wishlist.delete()
+    return redirect('/book/' + str(kwargs['pk']))
+    

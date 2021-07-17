@@ -2,30 +2,51 @@
 {% block head_title %} E-Book Reading {% endblock %}
 
 {% block content %}
-<section class="text">	 
+<section class="text">
     <div class="text-box">
         <h1>E-Book Reading Website</h1>
         <br>
-        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        
+        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+            galley of type and scrambled it to make a type specimen book.</p>
+
         <div class="text-center">
             <h6 style="font-weight: bold;">Search For A Book</h6>
             <form action="#" method="post">
                 {% csrf_token %}
-                <input type="text" style="margin-left:0" placeholder= "Search by Book Title/Author Name" name="TitleOfBook">
+                <input type="text" style="margin-left:0" placeholder="Search by Book Title/Author Name"
+                    name="TitleOfBook">
                 <br>
                 <input type="submit" value="Submit">
             </form>
         </div>
-        
+
     </div>
-</section>		
+</section>
 <section class="best-Selling">
     <h1>Most Popular Books</h1>
     <div class="row">
         {% for book in top_books %}
         <div class="best-selling-col">
             <a href="{% url 'book_detail_view' book.id %}"><img src="media/{{book.cover_image}}" alt=""></a>
+            {% if user.is_authenticated %}
+                {% if wishlist %}
+                {% for ab in wishlist %}
+                    {% ifequal book.id ab.book.id %}
+                    <div class="wishlist-icon" onclick="removeWishlist('{{book.id}}', this)">
+                        <ion-icon name="heart" style="color:red"></ion-icon>
+                    </div>
+                    {% else %}
+                    <div class="wishlist-icon" onclick="addWishlist('{{book.id}}', this)">
+                        <ion-icon name="heart-outline"></ion-icon>
+                    </div>
+                    {% endifequal %}
+                {% endfor %}
+                {% else %}
+                <div class="wishlist-icon" onclick="addWishlist('{{book.id}}', this)">
+                    <ion-icon name="heart-outline"></ion-icon>
+                </div>
+                {% endif %}
+            {% endif %}
         </div>
         {% endfor %}
     </div>
@@ -33,11 +54,30 @@
 </section>
 
 <section class="best-Selling">
-    <h1>Best-Selling Books Collection</h1>
+    <h1>Most Read Books Collection</h1>
     <div class="row">
         {% for book in most_read %}
         <div class="best-selling-col">
             <a href="{% url 'book_detail_view' book.id %}"><img src="media/{{book.cover_image}}" alt=""></a>
+        {% if user.is_authenticated %}
+                {% if wishlist %}
+                {% for ab in wishlist %}
+                    {% ifequal book.id ab.book.id %}
+                    <div class="wishlist-icon" onclick="removeWishlist('{{book.id}}', this)">
+                        <ion-icon name="heart" style="color:red"></ion-icon>
+                    </div>
+                    {% else %}
+                    <div class="wishlist-icon" onclick="addWishlist('{{book.id}}', this)">
+                        <ion-icon name="heart-outline"></ion-icon>
+                    </div>
+                    {% endifequal %}
+                {% endfor %}
+                {% else %}
+                <div class="wishlist-icon" onclick="addWishlist('{{book.id}}', this)">
+                    <ion-icon name="heart-outline"></ion-icon>
+                </div>
+                {% endif %}
+            {% endif %}
         </div>
         {% endfor %}
     </div>
@@ -60,6 +100,39 @@
 </section>
 
 <br><br>
-                
+
+<script>
+    function addWishlist(id, element) {
+        element.innerHTML = '<div class="loader"></div>';
+        $.ajax({
+            url: "/addtowishlist/"+id,
+            success: function (response) {
+                console.log(response);
+                element.innerHTML = '<ion-icon name="heart" style="color:red"></ion-icon>';
+                element.setAttribute('onclick', 'removeWishlist(' + id + ",this)")
+            },
+            // on error
+            error: function (response) {
+                console.log(response.responseJSON.errors);
+            }
+        });
+    }
+    function removeWishlist(id, element) {
+        element.innerHTML = '<div class="loader"></div>';
+        $.ajax({
+            url: "/removewishlist/"+id,
+            success: function (response) {
+                console.log(response);
+                element.innerHTML = '<ion-icon name="heart-outline"></ion-icon>';
+                element.setAttribute('onclick', 'addWishlist(' + id + ",this)")
+            },
+            // on error
+            error: function (response) {
+                console.log(response.responseJSON.errors);
+            }
+        });
+    }
+</script>
+
 
 {% endblock %}

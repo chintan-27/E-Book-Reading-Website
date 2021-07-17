@@ -93,4 +93,11 @@ class DailyUserReadingGoal(models.Model):
     
 #     def __str__(self):
 #         return self.book.name + " " + self.page_number
+
+class WishList(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.user.username + " " + self.book.name
     

@@ -40,6 +40,14 @@
       </button>
     {% endif %}
   </div>
+  <br>
+  <div class="row text-center">
+    {% if wishlist %}
+      <a href="/removewishlistbook/{{object.id}}" class="hero-btn" style="width: 200px;margin: auto;">Remove from Wishlist</a>
+    {% else %}
+      <a href="/addtowishlistbook/{{object.id}}" class="hero-btn" style="width: 200px;margin: auto;">Add to Wishlist</a>
+    {% endif %}
+  </div>
   <hr>
   <div class="text-center">
     <h2> <b>Reviews:</b> </h2> <br>

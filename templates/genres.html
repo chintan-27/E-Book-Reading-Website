@@ -11,7 +11,7 @@
         {% for book in books %}
             {% ifequal genre.name book.genre.name %}
             <div class="authors-col">
-                <a href=""><img src="/media/{{book.cover_image}}" alt=""></a>
+                <a href="{% url 'book_detail_view' book.id %}"><img src="/media/{{book.cover_image}}" alt=""></a>
                 <div class="text-center" style="width: 100%;">
                 <h3>{{book.name}}</h3>
                 </div>
@@ -22,5 +22,6 @@
     <a href="#" class="hero-btn">View All Books</a>
     {% endfor %}
 </section>
+
 {% endblock %}
 

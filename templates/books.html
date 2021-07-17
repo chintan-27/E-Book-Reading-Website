@@ -17,8 +17,59 @@
                 <br>
                 <b>{{book.name}}</b>
             </div>
+            {% if user.is_authenticated %}
+                {% if wishlist %}
+                {% for ab in wishlist %}
+                    {% ifequal book.id ab.book.id %}
+                    <div class="wishlist-icon" onclick="removeWishlist('{{book.id}}', this)">
+                        <ion-icon name="heart" style="color:red"></ion-icon>
+                    </div>
+                    {% else %}
+                    <div class="wishlist-icon" onclick="addWishlist('{{book.id}}', this)">
+                        <ion-icon name="heart-outline"></ion-icon>
+                    </div>
+                    {% endifequal %}
+                {% endfor %}
+                {% else %}
+                <div class="wishlist-icon" onclick="addWishlist('{{book.id}}', this)">
+                    <ion-icon name="heart-outline"></ion-icon>
+                </div>
+                {% endif %}
+            {% endif %}
         </div>
         {% endfor %}
     </div>
 </div>
+<script>
+    function addWishlist(id, element) {
+        element.innerHTML = '<div class="loader"></div>';
+        $.ajax({
+            url: "/addtowishlist/"+id,
+            success: function (response) {
+                console.log(response);
+                element.innerHTML = '<ion-icon name="heart" style="color:red"></ion-icon>';
+                element.setAttribute('onclick', 'removeWishlist(' + id + ",this)")
+            },
+            // on error
+            error: function (response) {
+                console.log(response.responseJSON.errors);
+            }
+        });
+    }
+    function removeWishlist(id, element) {
+        element.innerHTML = '<div class="loader"></div>';
+        $.ajax({
+            url: "/removewishlist/"+id,
+            success: function (response) {
+                console.log(response);
+                element.innerHTML = '<ion-icon name="heart-outline"></ion-icon>';
+                element.setAttribute('onclick', 'addWishlist(' + id + ",this)")
+            },
+            // on error
+            error: function (response) {
+                console.log(response.responseJSON.errors);
+            }
+        });
+    }
+</script>
 {% endblock %}

@@ -87,7 +87,7 @@ nav ion-icon {
   display: none;
 }
 
-@media(max-width: 700px) {
+@media only screen and (max-width: 700px) {
   .text-box h1 {
     font-size: 20px;
   }
@@ -200,7 +200,7 @@ h1 {
   justify-content: space-between;
 }
 
-@media(max-width: 982px) {
+@media only screen and (max-width: 982px) {
   input[type='text'], input[type="number"], input[type="email"], input[type="password"], input[type='file'], textarea, input[type="date"] {
     width: 450px;
   }
@@ -209,7 +209,7 @@ h1 {
   }
 }
 
-@media(max-width: 700px) {
+@media only screen and (max-width: 700px) {
   input[type='text'], input[type="number"], input[type="email"], input[type="password"], input[type='file'], textarea, input[type="date"] {
     width: 300px;
     margin-left: 20%;
@@ -476,7 +476,7 @@ input:focus, input:active {
   margin-top: 0;
 }
 
-@media (max-width: 1033px) and (min-width: 768px) {
+@media only screen and (max-width: 1033px) and (min-width: 768px) {
   .socialaccount_providers li {
     display: block;
   }
@@ -695,3 +695,30 @@ a:hover {
   color: #000000;
 }
 
+.wishlist-icon{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #fff;
+  height: 60px;
+  width: 60px;
+  font-size: 35px;
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 3px 4px 5px #0003;
+  cursor: pointer;
+}
+
+.loader {
+  border: 2px solid #f3f3f3; /* Light grey */
+  border-top: 2px solid black; /* Blue */
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
