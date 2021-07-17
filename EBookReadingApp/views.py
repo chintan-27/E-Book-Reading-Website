@@ -33,7 +33,6 @@ class IndexView(View):
 
     def get(self, request):
         context = {}
-        wishlist = WishList.objects.filter(user = request.user)
         top_books = Book.objects.all().order_by('rating').reverse()
         most_read = Book.objects.all().order_by('read_count').reverse()
         # book = top_books[0]
@@ -43,7 +42,9 @@ class IndexView(View):
         #     images[i].save('temp/page'+ str(i) +'.jpg', 'JPEG')
         context['top_books'] = top_books[:3]
         context['most_read'] = most_read[:3]
-        context['wishlist'] = wishlist
+        if(request.user.is_authenticated):
+            wishlist = WishList.objects.filter(user = request.user)
+            context['wishlist'] = wishlist
         authors = Author.objects.all().order_by('rating').reverse()
         context['authors'] = authors[:3]
         return render(request, self.template_name, context)
@@ -134,6 +135,7 @@ def bookDetailsByName(request):
 class BookDetailView(View):
     template_name = "bookdetails.html"
 
+    @method_decorator(login_required)
     def get(self, request, **kwargs):
         book = get_object_or_404(Book, id=kwargs['pk'])
         wishlist = WishList.objects.filter(user = request.user, book = book)
@@ -249,8 +251,8 @@ class Dashboard(View):
     def get(self, request):
         userbook = UserBook.objects.filter(user = request.user)
         readinggoal = UserReadingGoal.objects.filter(user = request.user)
-        wishlist = WishList.objects.filter(user = request.user)
         context = {}
+        wishlist = WishList.objects.filter(user = request.user)
         context['wishlist'] = wishlist
         if(len(readinggoal) > 0):
             context['readinggoal'] = readinggoal[0]
@@ -352,9 +354,10 @@ class BooksView(View):
     
     def get(self, request):
         books = Book.objects.all()
-        wishlist = WishList.objects.filter(user = request.user)
         self.context['books'] = books
-        self.context['wishlist'] = wishlist
+        if(request.user.is_authenticated):
+            wishlist = WishList.objects.filter(user = request.user)
+            self.context['wishlist'] = wishlist
         return render(request, self.template_name, self.context)
     
 def Search(request, query):
