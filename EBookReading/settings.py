@@ -23,9 +23,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 SECRET_KEY = '&wl^j2xf+8wd-v6o0&m==1znmq-896x@p050-@hxxb=k$wmq^x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','ebookreading.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
