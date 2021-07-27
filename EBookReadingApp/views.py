@@ -26,7 +26,7 @@ from pdf2image import convert_from_path
 
 # Create your views here.
 
-STATIC_FILE_URI = r"C:\Users/User/Desktop/Projects/EBookReading/EBookReading/static/csv/books.csv"
+STATIC_FILE_URI = r"C:\Users/User/Desktop/Projects/IBMINTERNSHIP/static/csv/books.csv"
 
 
 class IndexView(View):
