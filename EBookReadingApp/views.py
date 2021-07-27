@@ -21,6 +21,7 @@ from PyDictionary import PyDictionary
 import io
 import os
 import datetime
+import random
 from pdf2image import convert_from_path
 
 # Create your views here.
@@ -48,6 +49,10 @@ class IndexView(View):
             print(wishlist)
         authors = Author.objects.all().order_by('rating').reverse()
         context['authors'] = authors[:3]
+        # start_date = datetime.date.today()
+        # for single_date in (start_date - datetime.timedelta(n) for n in range(7, -1 , -1)):
+        #     d = DailyUserReadingGoal(date = single_date, user = request.user, base = get_object_or_404(UserReadingGoal, user = request.user), completedminutes=float(random.randint(20, 60)))
+        #     d.save()
         return render(request, self.template_name, context)
     
     def post(self, request):
@@ -364,12 +369,12 @@ class BooksView(View):
 def Search(request, query):
     if(request.method == "POST"):
         return redirect('/search/' + request.POST['TitleOfBook'])
-    books = Book.objects.filter(name = query.title())
+    books = Book.objects.filter(name__contains = query.lower())
     context = {}
     context['books'] = books
-    authors = Author.objects.filter(name = query.title())
+    authors = Author.objects.filter(name__contains = query.lower())
     context['authors'] = authors
-    genres = Genre.objects.filter(name = query.title())
+    genres = Genre.objects.filter(name__contains = query.lower())
     context['genres'] = genres
     if(len(genres) > 0):
         genrebooks = Book.objects.filter(genre = genres[0])
